@@ -3,7 +3,7 @@ from datetime import datetime
 
 from avito import build_search_url, fetch_html, load_saved_html, save_html
 from excel import save_results_xlsx
-from parser import filter_ads, parse_ads, select_top_ads
+from parser import filter_ads, is_empty_search_page, parse_ads, select_top_ads
 
 ARTICLES = {
     "223112R020": "Прокладка головки блока цилиндра",
@@ -60,6 +60,10 @@ def main() -> None:
                 html = load_saved_html(article)
 
             ads = parse_ads(html)
+
+            if not ads and not is_empty_search_page(html):
+                raise ValueError("Страница получена, но поисковая выдача не распознана")
+
             filtered_ads = filter_ads(ads)
             top_ads = select_top_ads(filtered_ads)
 

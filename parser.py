@@ -123,27 +123,6 @@ def format_location(location_slug: str | None) -> str | None:
     return None
 
 
-def select_ads(
-    ads: list[dict[str, str | int | None]],
-    limit: int = 5,
-) -> list[dict[str, str | int | None]]:
-    filtered_ads = []
-
-    for ad in ads:
-        if ad["condition"] != "Новое":
-            continue
-
-        if not is_allowed_location(ad["location"]):
-            continue
-
-        if not isinstance(ad["price"], int):
-            continue
-
-        filtered_ads.append(ad)
-
-    return filtered_ads
-
-
 def filter_ads(
     ads: list[dict[str, str | int | None]],
 ) -> list[dict[str, str | int | None]]:
